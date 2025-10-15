@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เริ่มเซอร์ไพรส์!</title>
+<style>
+  body {
+    font-family: "Prompt", sans-serif;
+    background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* ตัวการ์ตูน */
+  .character {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    transition: all 0.8s ease;
+  }
+
+  .character img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* กล่องข้อความ (speech bubble) */
+  .speech {
+    position: absolute;
+    top: -90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-size: 18px;
+    color: #333;
+    min-width: 220px;
+    text-align: center;
+  }
+
+  /* ปุ่ม */
+  .start-btn {
+    position: absolute;
+    padding: 15px 35px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: none;
+  }
+
+  .start-btn:hover {
+    background-color: #ff3b2f;
+    transform: scale(1.05);
+  }
+
+  /* เอฟเฟกต์พิมพ์ทีละตัว */
+  .typing {
+    border-right: 3px solid #333;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: blink 0.8s step-end infinite;
+  }
+
+  @keyframes blink {
+    from, to { border-color: transparent; }
+    50% { border-color: #333; }
+  }
+</style>
+</head>
+<body>
+
+<div class="character" id="char">
+  <img id="charImage" src="Photo-Picxel/Put-pixel-1.png" alt="character">
+  <div class="speech typing" id="speech"></div>
+</div>
+
+<button class="start-btn" id="startBtn" onclick="pressStart()">Start Now</button>
+
+<script>
+  // ----- เนื้อหาที่ตัวการ์ตูนพูด -----
+  const messages = [
+    { text: "อยากจะเข้าเว็บนี้หรอ?", img: "Photo-Picxel/Put-pixel-1.png" },
+    { text: "มันไม่ง่ายหรอกนะ 😏", img: "Photo-Picxel/Put-pixel-2.png" },
+    { text: "ต้องฝึกซะหน่อยก่อนสิ!", img: "Photo-Picxel/Put-pixel-3.png" },
+    { text: "แน่จริงก็จับปุ่มนี้ให้ได้สิ 😜", img: "Photo-Picxel/Put-pixel-4.png" },
+    { text: "......", img: "Photo-Picxel/Put-pixel-5.png" },
+    { text: "...........", img: "Photo-Picxel/Put-pixel-6.png" }
+  ];
+
+  let index = 0;
+  const speech = document.getElementById("speech");
+  const charImg = document.getElementById("charImage");
+  const charDiv = document.getElementById("char");
+  const startBtn = document.getElementById("startBtn");
+
+  // ฟังก์ชันพิมพ์ข้อความทีละตัว
+  function typeMessage(text, callback) {
+    speech.textContent = "";
+    let i = 0;
+    const interval = setInterval(() => {
+      speech.textContent += text[i];
+      i++;
+      if (i === text.length) {
+        clearInterval(interval);
+        setTimeout(callback, 1000);
+      }
+    }, 60);
+  }
+
+  // เริ่มลำดับข้อความ
+  function showNextMessage() {
+    if (index < messages.length) {
+      charImg.src = messages[index].img;
+      typeMessage(messages[index].text, () => {
+        index++;
+        showNextMessage();
+      });
+    } else {
+      // เมื่อพูดจบทั้งหมดแล้ว
+      charDiv.style.transform = "scale(0.8) translateY(180px)";
+      setTimeout(() => {
+        startBtn.style.display = "block";
+        moveButtonRandom();
+      }, 1200);
+    }
+  }
+
+  // สุ่มตำแหน่งปุ่ม
+  function moveButtonRandom() {
+    const maxX = window.innerWidth - 200;
+    const maxY = window.innerHeight - 100;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    startBtn.style.left = `${x}px`;
+    startBtn.style.top = `${y}px`;
+  }
+
+  let clickCount = 0;
+  function pressStart() {
+    clickCount++;
+    if (clickCount < 3) {
+      const texts = [
+        "แหนะ! ยังไม่ยอมง่าย ๆ หรอก 😆",
+        "เร็วเกินไปนะ ลองใหม่สิ!",
+        "555 กำลังจะได้แล้วมั้ง?"
+      ];
+      startBtn.textContent = texts[Math.floor(Math.random() * texts.length)];
+      moveButtonRandom();
+    } else {
+      startBtn.textContent = "เอาล่ะ ยอมให้เข้าแล้ว ❤️";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1000);
+    }
+  }
+
+  // เริ่มการทำงานเมื่อเปิดเว็บ
+  window.onload = showNextMessage;
+</script>
+
+</body>
+</html>
