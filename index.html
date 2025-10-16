@@ -5,16 +5,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>เริ่มเซอร์ไพรส์!</title>
 <style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,700;0,800;1,500;1,600;1,700&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Itim', sans-serif;
+  }
+
   body {
     font-family: "Prompt", sans-serif;
     background: linear-gradient(135deg, #ffecd2, #fcb69f);
     height: 100vh;
     margin: 0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+  }
+
+  /* หน้าล็อกอิน */
+  .login-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background: rgba(255,255,255,0.9);
+    padding: 40px 50px;
+    border-radius: 25px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    animation: fadeIn 1.2s ease;
+  }
+
+  .login-container h1 {
+    margin-bottom: 20px;
+    color: #444;
+  }
+
+  .login-container input {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 200px;
+    font-size: 16px;
+    text-align: left;
+    margin: 7px 0;
+  }
+
+  .login-container button {
+    padding: 12px 30px;
+    background: #ff6f61;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .login-container button:hover {
+    background: #ff3b2f;
+    transform: scale(1.05);
   }
 
   /* ตัวการ์ตูน */
@@ -31,7 +84,7 @@
     object-fit: contain;
   }
 
-  /* กล่องข้อความ (speech bubble) */
+  /* กล่องข้อความ */
   .speech {
     position: absolute;
     top: -90px;
@@ -78,11 +131,230 @@
     from, to { border-color: transparent; }
     50% { border-color: #333; }
   }
+
+  /* ซ่อนตอนเปลี่ยนหน้า */
+  .hidden { display: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .Login-img {
+    width: 140px;
+    height: 160px;
+    border-radius: 50px;
+    border: 4px solid rgb(0, 0, 0);
+    border-style: ridge;
+    margin: 10px auto;
+  }
+
+  .custom-alert {
+    display: flex;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #33CC00;;
+    border-radius: 20px;
+    box-shadow: 4px 8px 4px rgba(0, 0, 0, 0.4);
+    padding: 30px;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+    max-width: 320px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .custom-alert.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    animation: Pop 0.4s ease;
+  }
+
+  @keyframes Pop {
+    0% {
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  }
+
+  .custom-alert.error {
+    background-color: #da1b1b;
+  }
+
+  .custom-alert.error button {
+	  color: #da1b1b;
+  }
+
+  .custom-alert img {
+    width: 100px;
+	  height: 100px;
+	  margin-bottom: 10px;
+  	margin: 10px auto;
+  }
+
+  .message {
+    font-size: 1.2rem;
+	  margin-top: 10px;
+	  color: white;
+  } 
+
+  .custom-alert button {
+    margin-top: 15px;
+	  padding: 6px 12px;
+	  border: none;
+	  border-radius: 8px;
+	  background-color: white;
+	  color: #33CC00;
+	  font-weight: bold;
+	  cursor: pointer;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+
+  .login-container {
+    position: relative;
+  }
+
+  .login-pixel {
+    width: 90px;
+    height: auto;
+    z-index: 2;
+    animation: fadeIn 1.2s ease;
+  }
+
+  .box-message {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    color: #333;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 15px;
+    max-width: 80%;
+    animation: fadeIn 1.2s ease;
+  }
+
+  .box-message2 {
+    background: rgb(255, 113, 191);
+    padding: 15px 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 15px;
+    max-width: 80%;
+    animation: fadeIn 1.2s ease;
+  }
+
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    position: relative;
+    margin-top: 50px;
+  }
+
+  .top-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: -28%;
+    margin-top: 10px;
+  }
+
+  .bottom-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    bottom: -14%;
+  }
+
+  .login-pixel2 {
+    width: 80px;
+    height: auto;
+    z-index: 2;
+    animation: fadeIn 1.2s ease;
+  }
+
+  @media screen and (max-width: 480px) {
+	  .custom-alert {
+	  	width: 75%;
+	  	padding: 12px 16px;
+	  	box-sizing: border-box;
+	  }
+
+	  .custom-alert img {
+	  	width: 80px;
+	  	height: 80px;
+	  }
+
+	  .alertMessage {
+	  	font-size: 1rem;
+	  }
+
+	  .custom-alert button {
+	  	font-size: 0.9rem;
+	  	padding: 10px 15px;
+	  }
+}
+
+
+
 </style>
 </head>
 <body>
 
-<div class="character" id="char">
+<!-- หน้า Login -->
+<div class="main-container">
+  <div class="top-section">
+    <img src="Photo-Picxel/Put-pixel-1.png" alt="put" class="login-pixel">
+    <div class="box-message">
+      <p>แน่จริงก็เข้ามาให้ได้สิ!!!</p>
+    </div>
+  </div>
+
+  <div class="login-container" id="loginPage">
+    <img src="img/biatoey-img1.jpg" alt="biatoey" class="Login-img">
+    <h1>เข้าสู่ระบบ</h1>
+    <input type="text" id="username" required autocomplete="off" placeholder="ชื่อผู้ใช้ ( นางสาว... )">
+    <input type="text" id="password" required autocomplete="off" placeholder="รหัสผ่าน ( เลขบัตรประชาชน )">
+    <br>
+    <button onclick="startGame()">เข้าสู่ระบบ</button>
+  </div>
+
+
+  <div class="bottom-section">
+    <div class="box-message2">
+      <p>มีของขวัญสุดพิเศษด้วยนะ</p>
+    </div>
+    <img src="Photo-Picxel/Gift-pink1.png" alt="gift" class="login-pixel2">
+</div>
+
+<!--alert-box-->
+<div class="custom-alert" id="custom-alert">
+  <img src="" alt="" id="alert-img" class="alert-img">
+  <p id="message" class="message"></p>
+  <button id="OK-button">OK</button>
+</div>
+
+<!-- หน้า Interactive -->
+<div class="character hidden" id="char">
   <img id="charImage" src="Photo-Picxel/Put-pixel-1.png" alt="character">
   <div class="speech typing" id="speech"></div>
 </div>
@@ -90,14 +362,13 @@
 <button class="start-btn" id="startBtn" onclick="pressStart()">Start Now</button>
 
 <script>
-  // ----- เนื้อหาที่ตัวการ์ตูนพูด -----
   const messages = [
-    { text: "อยากจะเข้าเว็บนี้หรอ?", img: "Photo-Picxel/Put-pixel-1.png" },
-    { text: "มันไม่ง่ายหรอกนะ 😏", img: "Photo-Picxel/Put-pixel-2.png" },
-    { text: "ต้องฝึกซะหน่อยก่อนสิ!", img: "Photo-Picxel/Put-pixel-3.png" },
-    { text: "แน่จริงก็จับปุ่มนี้ให้ได้สิ 😜", img: "Photo-Picxel/Put-pixel-4.png" },
-    { text: "......", img: "Photo-Picxel/Put-pixel-5.png" },
-    { text: "...........", img: "Photo-Picxel/Put-pixel-6.png" }
+    { text: "สวัสดี! ยินดีต้อนรับนะ 🎉", img: "Photo-Picxel/Put-pixel-1.png" },
+    { text: "อยากจะเข้าเว็บนี้หรอ?", img: "Photo-Picxel/Put-pixel-2.png" },
+    { text: "มันไม่ง่ายหรอกนะ 😏", img: "Photo-Picxel/Put-pixel-3.png" },
+    { text: "ต้องฝึกซะหน่อยก่อนสิ!", img: "Photo-Picxel/Put-pixel-4.png" },
+    { text: "แน่จริงก็จับปุ่มนี้ให้ได้สิ 😜", img: "Photo-Picxel/Put-pixel-5.png" },
+    { text: "......", img: "Photo-Picxel/Put-pixel-6.png" }
   ];
 
   let index = 0;
@@ -105,8 +376,60 @@
   const charImg = document.getElementById("charImage");
   const charDiv = document.getElementById("char");
   const startBtn = document.getElementById("startBtn");
+  const loginPage = document.getElementById("loginPage");
 
-  // ฟังก์ชันพิมพ์ข้อความทีละตัว
+  // เริ่มเมื่อ Login
+  function startGame() {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value.trim();
+    if (username === "" || password === "") {
+      AlertBox("error", "กรุณากรอกให้ครบก่อนนะ!");
+      return;
+    }
+
+     if (
+      (username === "นางสาวพุดน้ำบุศย์ เต็มราม" ||
+      username === "นางสาวพุดน้ำบุศย์เต็มราม" ||
+      username === "ใบเตย" ||
+      username === "นางสาว พุดน้ำบุศย์ เต็มราม") &&
+      password === "1939900637038"
+    ) {
+      AlertBox("success", "เข้าสู่ระบบสำเร็จ");
+    } else {
+      AlertBox("error", "ชื่อหรือรหัสไม่ถูกต้อง ลองอีกครั้งนะ!");
+      return; // หยุดไว้ที่หน้านี้ ไม่ให้ไปต่อ
+    }
+  }
+
+  function AlertBox(type, messageText) {
+    const alertbox = document.getElementById('custom-alert');
+    const message = document.getElementById('message');
+    const okbutton = document.getElementById('OK-button');
+    const alertimg = document.getElementById('alert-img');
+
+    if ( type === "success" ) {
+      alertimg.src = "https://cdn-icons-png.flaticon.com/512/845/845646.png";
+      alertbox.className = "custom-alert show"
+    }else if ( type === "error" ) {
+      alertimg.src = "https://cdn-icons-png.flaticon.com/512/1828/1828843.png";
+      alertbox.className = "custom-alert show error";
+    }
+    message.textContent = messageText;
+
+    okbutton.onclick = () => {
+      alertbox.classList.remove('show');
+
+      if ( type === "success" ) {
+        loginPage.classList.add("hidden");
+        charDiv.classList.remove("hidden");
+        document.body.style.background = "linear-gradient(135deg, #fdfbfb, #ebedee)";
+        showNextMessage();
+      }
+    }
+   
+  }
+
+  // ฟังก์ชันพิมพ์ทีละตัว
   function typeMessage(text, callback) {
     speech.textContent = "";
     let i = 0;
@@ -120,7 +443,7 @@
     }, 60);
   }
 
-  // เริ่มลำดับข้อความ
+  // ลำดับการพูด
   function showNextMessage() {
     if (index < messages.length) {
       charImg.src = messages[index].img;
@@ -148,14 +471,19 @@
     startBtn.style.top = `${y}px`;
   }
 
+  // จำนวนครั้งในการกด
   let clickCount = 0;
+  const maxClicks = 6;
+
   function pressStart() {
     clickCount++;
-    if (clickCount < 3) {
+    if (clickCount < maxClicks) {
       const texts = [
         "แหนะ! ยังไม่ยอมง่าย ๆ หรอก 😆",
         "เร็วเกินไปนะ ลองใหม่สิ!",
-        "555 กำลังจะได้แล้วมั้ง?"
+        "555 กำลังจะได้แล้วมั้ง?",
+        "ยังอีกนิดนึง!",
+        "เก่งจังเลย เหลืออีกหน่อย!"
       ];
       startBtn.textContent = texts[Math.floor(Math.random() * texts.length)];
       moveButtonRandom();
@@ -163,12 +491,9 @@
       startBtn.textContent = "เอาล่ะ ยอมให้เข้าแล้ว ❤️";
       setTimeout(() => {
         window.location.href = "index.html";
-      }, 1000);
+      }, 1200);
     }
   }
-
-  // เริ่มการทำงานเมื่อเปิดเว็บ
-  window.onload = showNextMessage;
 </script>
 
 </body>
