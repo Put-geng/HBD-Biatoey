@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>เริ่มเซอร์ไพรส์!</title>
+<title>HBD-P'biatoey</title>
 <style>
 
   @import url('https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,700;0,800;1,500;1,600;1,700&display=swap');
@@ -102,7 +102,7 @@
 
   /* ปุ่ม */
   .start-btn {
-    position: absolute;
+    position: fixed;
     padding: 15px 35px;
     background-color: #ff6f61;
     color: white;
@@ -112,11 +112,16 @@
     cursor: pointer;
     transition: all 0.3s ease;
     display: none;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 2s infinite;
   }
 
-  .start-btn:hover {
-    background-color: #ff3b2f;
-    transform: scale(1.05);
+  @keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.05); }
+    100% { transform: translate(-50%, -50%) scale(1); }
   }
 
   /* เอฟเฟกต์พิมพ์ทีละตัว */
@@ -164,6 +169,7 @@
     align-items: center;
     z-index: 999;
     max-width: 320px;
+    width: 100%;
     opacity: 0;
     pointer-events: none;
   }
@@ -293,6 +299,25 @@
     animation: fadeIn 1.2s ease;
   }
 
+  .character.pop {
+    animation: popUp 0.8s ease forwards;
+  }
+
+
+  @keyframes popUp {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translateY(100px);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.1) translateY(-20px);
+    }
+    100% {
+      transform: scale(1) translateY(0);
+    }
+  }
+
   @media screen and (max-width: 480px) {
 	  .custom-alert {
 	  	width: 75%;
@@ -322,7 +347,7 @@
 <body>
 
 <!-- หน้า Login -->
-<div class="main-container">
+<div class="main-container" id="main-container">
   <div class="top-section">
     <img src="Photo-Picxel/Put-pixel-1.png" alt="put" class="login-pixel">
     <div class="box-message">
@@ -377,9 +402,10 @@
   const charImg = document.getElementById("charImage");
   const charDiv = document.getElementById("char");
   const startBtn = document.getElementById("startBtn");
-  const loginPage = document.getElementById("loginPage");
+  const loginPage = document.getElementById("main-container");
 
   // เริ่มเมื่อ Login
+  //รหัสผ่าน ใบเตย 1939900637038
   function startGame() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value.trim();
@@ -402,6 +428,9 @@
     }
   }
 
+  const typeSound = new Audio("https://cdn.pixabay.com/download/audio/2021/09/01/audio_7a83cce9d6.mp3?filename=typewriter-typing-2-14551.mp3");
+  typeSound.volume = 0.3;
+
   function AlertBox(type, messageText) {
     const alertbox = document.getElementById('custom-alert');
     const message = document.getElementById('message');
@@ -421,9 +450,14 @@
       alertbox.classList.remove('show');
 
       if ( type === "success" ) {
-        loginPage.classList.add("hidden");
+        document.getElementById("loginPage").style.display = "none"; // login form
+        document.querySelector(".top-section").style.display = "none";
+        document.querySelector(".bottom-section").style.display = "none";
+
+        // แสดงหน้า interactive
         charDiv.classList.remove("hidden");
-        document.body.style.background = "linear-gradient(135deg, #fdfbfb, #ebedee)";
+        charDiv.classList.add("pop")
+        document.body.style.background = "linear-gradient(135deg, #DB7093, #FFC0CB)";
         showNextMessage();
       }
     }
@@ -436,6 +470,8 @@
     let i = 0;
     const interval = setInterval(() => {
       speech.textContent += text[i];
+      typeSound.currentTime = 0;
+      typeSound.play();
       i++;
       if (i === text.length) {
         clearInterval(interval);
@@ -454,24 +490,79 @@
       });
     } else {
       // เมื่อพูดจบทั้งหมดแล้ว
-      charDiv.style.transform = "scale(0.8) translateY(180px)";
+      charDiv.classList.remove("pop"); // รีเซ็ต animation pop ก่อน
+      void charDiv.offsetWidth; // trick เพื่อรีเฟรช DOM
+
+      charDiv.style.transition = "transform 1s ease"; // ใส่ transition เองให้ลื่น
+      charDiv.style.transform = "scale(0.8) translateY(210px)";
       setTimeout(() => {
         startBtn.style.display = "block";
-        moveButtonRandom();
+
+        startBtn.style.left = "50%";
+        startBtn.style.top = "50%";
       }, 1200);
     }
   }
 
   // สุ่มตำแหน่งปุ่ม
   function moveButtonRandom() {
-    const maxX = window.innerWidth - 200;
-    const maxY = window.innerHeight - 100;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const charRect = charDiv.getBoundingClientRect();
+    const btnWidth = startBtn.offsetWidth;
+    const btnHeight = startBtn.offsetHeight;
+
+    // ✅ ระยะปลอดภัยรอบขอบ (กันขอบ + เผื่อเงา)
+    const safeMargin = 60;
+
+    // ✅ พื้นที่สุ่มอยู่แค่ “กึ่งกลางจอ” ไม่ไปมุมบน-ล่างเกินไป
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const maxXRange = window.innerWidth / 2 - btnWidth - safeMargin * 2;
+    const maxYRange = window.innerHeight / 2 - btnHeight - safeMargin * 2;
+
+    let x, y;
+    let safe = false;
+    let attempts = 0;
+
+    // ป้องกันการเพี้ยนจาก transform เดิม
+    startBtn.style.transform = "none";
+
+    while (!safe && attempts < 300) {
+      // ✅ สุ่มเฉพาะในบริเวณกึ่งกลางจอ
+      x = centerX + (Math.random() * 2 - 1) * maxXRange;
+      y = centerY + (Math.random() * 2 - 1) * maxYRange;
+
+      // ตรวจสอบไม่ทับตัวละคร
+      const overlapX = x + btnWidth > charRect.left && x < charRect.right;
+      const overlapY = y + btnHeight > charRect.top && y < charRect.bottom;
+
+      // ✅ ต้องไม่ทับทั้ง X และ Y ถึงจะปลอดภัย
+      if (!(overlapX && overlapY)) {
+        safe = true;
+      }
+
+      attempts++;
+    }
+
+    // ✅ ตั้งค่าตำแหน่ง
     startBtn.style.left = `${x}px`;
     startBtn.style.top = `${y}px`;
-  }
 
+    // ✅ ตรวจสอบรอบสุดท้าย ปรับไม่ให้เกินขอบ
+    const rect = startBtn.getBoundingClientRect();
+    if (rect.right > window.innerWidth - safeMargin) {
+      startBtn.style.left = `${window.innerWidth - btnWidth - safeMargin}px`;
+    }
+    if (rect.left < safeMargin) {
+      startBtn.style.left = `${safeMargin}px`;
+    }
+    if (rect.bottom > window.innerHeight - safeMargin) {
+      startBtn.style.top = `${window.innerHeight - btnHeight - safeMargin}px`;
+    }
+    if (rect.top < safeMargin) {
+      startBtn.style.top = `${safeMargin}px`;
+    }
+  }
+  
   // จำนวนครั้งในการกด
   let clickCount = 0;
   const maxClicks = 6;
@@ -491,7 +582,7 @@
     } else {
       startBtn.textContent = "เอาล่ะ ยอมให้เข้าแล้ว ❤️";
       setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = "cake.html";
       }, 1200);
     }
   }

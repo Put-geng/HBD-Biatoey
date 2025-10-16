@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBD-P'biatoey</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Itim&family=Sarabun:ital,wght@0,700;0,800;1,500;1,600;1,700&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Itim', sans-serif;
+    }
+    body {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(to bottom right, #ffe6f7, #e0f7ff);
+        overflow: hidden;
+    }
+
+    .color-header {
+        display: flex;
+        flex-direction: column;
+        font-size: 2.5rem;
+        margin-bottom: 100px;
+        margin-top: 60px;
+        text-shadow: 0 0 10px #fff;
+        text-align: center;
+    }
+
+    .color1 {
+        color: rgb(253, 70, 235);
+    }
+
+    .color2 {
+        color: rgb(141, 60, 255);
+    }
+
+    .cake {
+        position: relative;
+        width: 300px;
+        height: 250px;
+        background: #ffb6b9;
+        border-radius: 25px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        overflow: visible;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 8px solid red;
+        border-style:ridge;
+
+    }
+
+    .cake::before {
+        content: '';
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 40px;
+        background: #fff;
+        border-radius: 30px 30px 0 0;
+        border: 6px solid rgb(125, 125, 125);
+        border-style: ridge;
+    }
+
+    .candle2::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 30px;
+        background: #fff;
+        border-radius: 30px 30px 0 0;
+        border: 6px solid rgb(125, 125, 125);
+        border-style: ridge;
+    }
+
+    .candle3::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 30px;
+        background: #fff;
+        border-radius: 30px 30px 0 0;
+        border: 6px solid rgb(125, 125, 125);
+        border-style: ridge;
+    }
+
+    .candle {
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 40px;
+        background: #ff8fab;
+        border-radius: 5px;
+    }
+
+    .candle2 {
+        position: absolute;
+        top: -60px;
+        left: 15%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 40px;
+        background: #ff8fab;
+        border-radius: 5px;
+    }
+
+    .candle3 {
+        position: absolute;
+        top: -60px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 40px;
+        background: #ff8fab;
+        border-radius: 5px;
+    }
+
+    .flame {
+        position: absolute;
+        top: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 20px;
+        background: radial-gradient(circle at 50% 60%, #ffeb3b, #ff9800 70%, transparent 80%);
+        border-radius: 50%;
+        animation: flicker 0.2s infinite alternate;
+    }
+
+    .fire2 {
+        position: absolute;
+        top: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 20px;
+        background: radial-gradient(circle at 50% 60%, #ffeb3b, #ff9800 70%, transparent 80%);
+        border-radius: 50%;
+        animation: flicker 0.2s infinite alternate;
+    }
+
+    .fire3 {
+        position: absolute;
+        top: -18px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 20px;
+        background: radial-gradient(circle at 50% 60%, #ffeb3b, #ff9800 70%, transparent 80%);
+        border-radius: 50%;
+        animation: flicker 0.2s infinite alternate;
+    }
+
+    @keyframes flicker {
+        from { transform: translateX(-50%) scale(1); opacity: 1; }
+        to { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+    }
+
+    .smoke {
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(200,200,200,0.5);
+        opacity: 0;
+        animation: smokeUp 2s ease-out forwards;
+    }
+
+    @keyframes smokeUp {
+        0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-50px); }
+    }
+
+    .btn {
+        margin-top: 20px;
+        padding: 12px 25px;
+        background: #ff5fa2;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .btn:hover {
+        background: #ff87c4;
+    }
+
+    audio {
+        display: none;
+    }
+
+    .peaple-img {
+        width: 150px;
+        height: auto;
+        border-radius: 20px;
+        border: 5px solid white;
+        border-style: dashed;
+    }
+
+    .confetti {
+        position: fixed;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        opacity: 0.9;
+        animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(100vh) rotate(360deg); }
+    }
+
+    .put {
+        width: 80px;
+        height: auto;
+    }
+
+    .gift {
+        width: 50px;
+        height: auto;
+    }
+
+    .container-button {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .container-img {
+        display: flex;
+        flex-direction: row;
+        gap: 25px;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    
+    .container-img a {
+        text-decoration: underline;
+        font-size: 1.5rem;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.6);
+        color: rgb(171, 0, 171);
+    }
+</style>
+</head>
+
+<body>
+    <div class="color-header">
+        <div class="container-img">
+            <a href="donation.html">
+                <img src="Photo-Picxel/Gift-pink1.png" alt="gift" class="gift">
+                click here!!!
+            </a>
+            <img src="Photo-Picxel/Put-pixel-2.png" alt="put" class="put">
+        </div>
+        <div class="color1">สุขสันต์วันเกิดนะ</div><div class="color2">พี่เตยคนงาม</div>
+    </div>
+
+    <div class="cake">
+        <div class="candle">
+            <div class="flame"></div>
+        </div>
+        <div class="candle2">
+            <div class="flame fire2"></div>
+        </div>
+        <div class="candle3">
+            <div class="flame fire3"></div>
+        </div>
+        <img src="img/biatoey-img3.jpg" alt="biatoey" class="peaple-img">
+    </div>
+
+    <div class="container-button">
+        <button class="btn" onclick="blowCandle()">เป่าเทียน! 💨</button>
+        <button class="btn" id="toggleMusicBtn" onclick="toggleMusic()">⏸️ ปิดเพลง</button>
+    </div>
+
+    <audio id="birthdaySong" autoplay loop>
+        <source src="music/Happy Birthday 80's - E's Jammy Jams.mp3" type="audio/mpeg">
+    </audio>
+
+<script>
+    function blowCandle() {
+        const flames = document.querySelectorAll('.flame');
+
+        // ดับไฟทีละเล่มเรียงซ้าย → กลาง → ขวา
+        flames.forEach((flame, index) => {
+            setTimeout(() => {
+                flame.style.display = 'none';
+            }, index * 500); // 0.5 วินาทีต่อเล่ม
+        });
+
+        // สร้างควันเหมือนเดิม
+        const cake = document.querySelector('.cake');
+        for (let i = 0; i < 10; i++) {
+            const smoke = document.createElement('div');
+            smoke.classList.add('smoke');
+            smoke.style.left = (50 + Math.random() * 10 - 5) + '%';
+            smoke.style.animationDelay = i * 0.1 + 's';
+            cake.appendChild(smoke);
+            setTimeout(() => smoke.remove(), 2000);
+        }
+
+        // เล่นเสียงเป่าเทียน
+        const audio = new Audio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_32b3c66b9b.mp3?filename=blow-6115.mp3");
+        audio.play();
+
+        // หลังไฟดับครบทุกเล่ม (delay 3*500=1500ms)
+        setTimeout(() => createConfetti(), 1600);
+    }
+
+    // ฟังก์ชันสร้างกระดาษสี
+    function createConfetti() {
+        const body = document.body;
+        const colors = ['#ff5fa2','#ffeb3b','#60ff7b','#60d1ff','#ff7f50'];
+
+        for (let i = 0; i < 50; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.animationDelay = (Math.random() * 2) + 's';
+            body.appendChild(confetti);
+
+            // เอาออกหลัง 5 วินาที
+            setTimeout(() => confetti.remove(), 5000);
+        }
+    }
+
+
+    // ฟังก์ชันเปิด/ปิดเพลง
+    function toggleMusic() {
+        const music = document.getElementById('birthdaySong');
+        const btn = document.getElementById('toggleMusicBtn');
+
+        if (music.paused) {
+            music.play();
+            btn.innerHTML = "⏸️ ปิดเพลง";
+        } else {
+            music.pause();
+            btn.innerHTML = "▶️ เปิดเพลง";
+        }
+    }
+</script>
+</body>
+</html>
