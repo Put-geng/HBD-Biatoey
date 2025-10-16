@@ -359,7 +359,7 @@
     <img src="img/biatoey-img1.jpg" alt="biatoey" class="Login-img">
     <h1>เข้าสู่ระบบ</h1>
     <input type="text" id="username" required autocomplete="off" placeholder="ชื่อผู้ใช้ ( นางสาว... )">
-    <input type="text" id="password" required autocomplete="off" placeholder="รหัสผ่าน ( เลขบัตรประชาชน )">
+    <input type="text" id="password" required autocomplete="off" placeholder="รหัสผ่าน ( 123...0 )">
     <br>
     <button onclick="startGame()">เข้าสู่ระบบ</button>
   </div>
@@ -405,7 +405,7 @@
   const loginPage = document.getElementById("main-container");
 
   // เริ่มเมื่อ Login
-  //รหัสผ่าน ใบเตย 1939900637038
+  //รหัสผ่าน ใบเตย 1234567890
   function startGame() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value.trim();
@@ -419,7 +419,7 @@
       username === "นางสาวพุดน้ำบุศย์เต็มราม" ||
       username === "ใบเตย" ||
       username === "นางสาว พุดน้ำบุศย์ เต็มราม") &&
-      password === "1939900637038"
+      password === "1234567890"
     ) {
       AlertBox("success", "เข้าสู่ระบบสำเร็จ");
     } else {
